@@ -1,7 +1,7 @@
 from typing import Optional, List
 from fastapi import FastAPI, HTTPException, status
-from models import Contact, Message
-from schemas import ContactSchema, MessageSchema
+from models import Contact
+from schemas import ContactSchema
 from services.get_coins import GetCoins
 from database import SessionLocal
 
