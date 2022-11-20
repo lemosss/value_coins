@@ -7,7 +7,6 @@ app = FastAPI()
 def heath_check():
     return {"status": "OK"}
 
-
 @app.get("/items/{coin}")
 def get_coin(coin: str):
     if coin == "dollar":
