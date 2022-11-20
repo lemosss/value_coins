@@ -19,8 +19,8 @@ docs_build
 venv
 docs.zip
 archive.zip
-alembic
-alembic.ini
+# alembic
+# alembic.ini
 
 # vim temporary files
 *~
