@@ -13,7 +13,7 @@ class GetCoins:
             if page.status_code == 200:
                 parser = BeautifulSoup(page.content, 'html.parser')
                 dollar_value_str = parser.find(id='nacional').get('value')
-                dollar_value_float = float(dollar_value_str.replace(',','.'))
+                dollar_value_float = float(dollar_value_str.replace(',', '.'))
                 return dollar_value_float
             else:
                 raise HTTPException(status_code=400, detail="Invalid Coin")
@@ -30,7 +30,7 @@ class GetCoins:
                 parser = BeautifulSoup(page.content, 'html.parser')
                 euro_value_str = parser.find(
                     "div", {"class": "style__Text-sc-1a6mtr6-2"}
-                )                
+                )
                 euro_value_float = float(
                     euro_value_str.text.replace(" Reais", "").replace(",", ".")
                 )

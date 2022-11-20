@@ -8,4 +8,4 @@ engine = create_engine(
     echo=True
 )
 Base = declarative_base()
-SessionLocal=sessionmaker(bind=engine)
+SessionLocal = sessionmaker(bind=engine)
