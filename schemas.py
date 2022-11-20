@@ -9,11 +9,3 @@ class ContactSchema(BaseModel):
 
     class Config:
         orm_mode = True
-
-
-class MessageSchema(BaseModel):
-    id: int
-    message: str
-    
-    class Config:
-        orm_mode = True

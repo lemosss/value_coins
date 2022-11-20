@@ -11,11 +11,3 @@ class Contact(Base):
 
     def __repr__(self):
         return f"<Contact name={self.name} Email={self.email} Tel={self.tel}>"
-
-class Message(Base):
-    __tablename__ = 'message'
-    id  = Column(Integer, primary_key=True, index=True)
-    message = Column(String)
-
-    def __repr__(self):
-        return f"<Message={self.message}>"
