@@ -1,19 +1,17 @@
-from fastapi import HTTPException
-
 import requests
 from bs4 import BeautifulSoup
+from fastapi import HTTPException
 
 
 class GetCoins:
-
     @classmethod
     def get_dollar(cls):
         try:
             page = requests.get("https://dolarhoje.com")
             if page.status_code == 200:
-                parser = BeautifulSoup(page.content, 'html.parser')
-                dollar_value_str = parser.find(id='nacional').get('value')
-                dollar_value_float = float(dollar_value_str.replace(',', '.'))
+                parser = BeautifulSoup(page.content, "html.parser")
+                dollar_value_str = parser.find(id="nacional").get("value")
+                dollar_value_float = float(dollar_value_str.replace(",", "."))
                 return dollar_value_float
             else:
                 raise HTTPException(status_code=400, detail="Invalid Coin")
@@ -23,11 +21,9 @@ class GetCoins:
     @classmethod
     def get_euro(cls):
         try:
-            page = requests.get(
-                "https://www.remessaonline.com.br/cotacao/cotacao-euro"
-            )
+            page = requests.get("https://www.remessaonline.com.br/cotacao/cotacao-euro")
             if page.status_code == 200:
-                parser = BeautifulSoup(page.content, 'html.parser')
+                parser = BeautifulSoup(page.content, "html.parser")
                 euro_value_str = parser.find(
                     "div", {"class": "style__Text-sc-1a6mtr6-2"}
                 )

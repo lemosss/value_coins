@@ -1,10 +1,11 @@
 from typing import List
+
 from fastapi import FastAPI, HTTPException, status
+
+from database.database import SessionLocal
 from models.models import Contact
 from schemas.schemas import ContactSchema
 from services.get_coins import GetCoins
-from database.database import SessionLocal
-
 
 db = SessionLocal()
 
@@ -35,9 +36,7 @@ def get_contacts():
 
 
 @app.post(
-    "/create/contact",
-    response_model=ContactSchema,
-    status_code=status.HTTP_201_CREATED
+    "/create/contact", response_model=ContactSchema, status_code=status.HTTP_201_CREATED
 )
 def create_contracts(contact: ContactSchema):
     new_contact = Contact(
