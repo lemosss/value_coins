@@ -2,9 +2,9 @@ from fastapi import Depends, FastAPI, HTTPException, status
 from sqlalchemy.orm import Session
 
 from database.database import Base, SessionLocal, engine
-from models.models import Contact
-from repositories.repository import ContactRepository
-from schemas.schemas import ContactRequest, ContactResponse
+from models.contact import Contact
+from repositories.contact import ContactRepository
+from schemas.contact import ContactRequest, ContactResponse
 from services.get_coins import GetCoins
 
 Base.metadata.create_all(bind=engine)
