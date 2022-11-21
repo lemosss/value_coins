@@ -3,7 +3,7 @@ from typing import Generator
 import pytest
 from fastapi.testclient import TestClient
 
-from database.test_database import Base, engine, override_get_db
+from database.test_db import Base, engine, override_get_db
 from main import app, get_db
 
 Base.metadata.create_all(bind=engine)

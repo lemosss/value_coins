@@ -1,7 +1,7 @@
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import Depends, FastAPI, HTTPException, Response, status
 from sqlalchemy.orm import Session
 
-from database.database import Base, SessionLocal, engine
+from database.db import Base, SessionLocal, engine
 from models.contact import Contact
 from repositories.contact import ContactRepository
 from schemas.contact import ContactRequest, ContactResponse
@@ -51,3 +51,34 @@ def create(request: ContactRequest, db: Session = Depends(get_db)):
 def find_all(db: Session = Depends(get_db)):
     cursos = ContactRepository.find_all(db)
     return [ContactResponse.from_orm(curso) for curso in cursos]
+
+
+@app.get("/api/contacts/{id}", response_model=ContactResponse)
+def find_by_id(id: int, db: Session = Depends(get_db)):
+    contact = ContactRepository.find_by_id(db, id)
+    if not contact:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Contact not found"
+        )
+    return ContactResponse.from_orm(contact)
+
+
+@app.put("/api/cursos/{id}", response_model=ContactResponse)
+def update(id: int, request: ContactRequest, db: Session = Depends(get_db)):
+    if not ContactRepository.exists_by_id(db, id):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Curso não encontrado",
+        )
+    curso = ContactRepository.save(db, Contact(id=id, **request.dict()))
+    return ContactResponse.from_orm(curso)
+
+
+@app.delete("/api/contacts/{id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_by_id(id: int, db: Session = Depends(get_db)):
+    if not ContactRepository.exists_by_id(db, id):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Contact not found"
+        )
+    ContactRepository.delete_by_id(db, id)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
