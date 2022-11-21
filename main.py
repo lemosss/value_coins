@@ -9,6 +9,8 @@ from services.get_coins import GetCoins
 
 Base.metadata.create_all(bind=engine)
 
+app = FastAPI()
+
 
 def get_db():
     db = SessionLocal()
@@ -16,9 +18,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
-
-app = FastAPI()
 
 
 @app.get("/")
