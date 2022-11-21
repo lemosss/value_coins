@@ -9,7 +9,22 @@ from services.get_coins import GetCoins
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+
+description = """
+Value Coin API helps you do awesome stuff. 🚀
+"""
+
+
+app = FastAPI(
+    title="value-coins",
+    description=description,
+    version="0.0.1",
+    contact={
+        "name": "Tiago Lemos",
+        "url": "https://www.linkedin.com/in/tiago-lemos-6b5213172/",
+        "email": "lemosbeats@gmail.com",
+    },
+)
 
 
 def get_db():
@@ -25,8 +40,9 @@ def heath_check():
     return {"status": "OK"}
 
 
-@app.get("/items/{coin}")
+@app.get("/api/coins/{coin}", tags=["scrapy"])
 def get_coin(coin: str):
+    """Coins available: Dollar, Euro"""
     if coin == "dollar":
         dollar = GetCoins.get_dollar()
         return {"dollar_value": dollar}
@@ -41,19 +57,28 @@ def get_coin(coin: str):
     "/api/contacts",
     response_model=ContactResponse,
     status_code=status.HTTP_201_CREATED,
+    tags=["contacts"],
 )
 def create(request: ContactRequest, db: Session = Depends(get_db)):
     contact = ContactRepository.save(db, Contact(**request.dict()))
     return ContactResponse.from_orm(contact)
 
 
-@app.get("/api/contacts", response_model=list[ContactResponse])
+@app.get(
+    "/api/contacts",
+    response_model=list[ContactResponse],
+    tags=["contacts"],
+)
 def find_all(db: Session = Depends(get_db)):
     cursos = ContactRepository.find_all(db)
     return [ContactResponse.from_orm(curso) for curso in cursos]
 
 
-@app.get("/api/contacts/{id}", response_model=ContactResponse)
+@app.get(
+    "/api/contacts/{id}",
+    response_model=ContactResponse,
+    tags=["contacts"],
+)
 def find_by_id(id: int, db: Session = Depends(get_db)):
     contact = ContactRepository.find_by_id(db, id)
     if not contact:
@@ -63,7 +88,7 @@ def find_by_id(id: int, db: Session = Depends(get_db)):
     return ContactResponse.from_orm(contact)
 
 
-@app.put("/api/cursos/{id}", response_model=ContactResponse)
+@app.put("/api/cursos/{id}", response_model=ContactResponse, tags=["contacts"])
 def update(id: int, request: ContactRequest, db: Session = Depends(get_db)):
     if not ContactRepository.exists_by_id(db, id):
         raise HTTPException(
@@ -74,7 +99,11 @@ def update(id: int, request: ContactRequest, db: Session = Depends(get_db)):
     return ContactResponse.from_orm(curso)
 
 
-@app.delete("/api/contacts/{id}", status_code=status.HTTP_204_NO_CONTENT)
+@app.delete(
+    "/api/contacts/{id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    tags=["contacts"],
+)
 def delete_by_id(id: int, db: Session = Depends(get_db)):
     if not ContactRepository.exists_by_id(db, id):
         raise HTTPException(
