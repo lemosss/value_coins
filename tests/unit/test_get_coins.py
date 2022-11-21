@@ -1,8 +1,4 @@
-import sys
-
 from services.get_coins import GetCoins
-
-sys.path.append("..")
 
 
 class TestGetCoins:

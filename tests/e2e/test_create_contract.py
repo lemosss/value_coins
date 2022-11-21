@@ -1,8 +1,4 @@
-import sys
-
 from fastapi.testclient import TestClient
-
-sys.path.append("...")
 
 
 class TestCreateContract:
