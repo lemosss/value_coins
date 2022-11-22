@@ -32,7 +32,7 @@ class GetCoins:
                 euro_value_float = float(
                     euro_value_str.text.replace(" Reais", "").replace(",", ".")
                 )
-                return {"dollar_value": euro_value_float}
+                return {"euro_value": euro_value_float}
             else:
                 raise HTTPException(status_code=400, detail="Invalid Coin")
         except Exception as e:
