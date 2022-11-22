@@ -42,7 +42,8 @@ def heath_check():
 
 @app.get("/api/coins/{coin}", tags=["scrapy"])
 def get_coin(coin: str):
-    """Coins available: Dollar, Euro"""
+    """Coins available: dollar, euro"""
+    coin = coin.lower()
     if coin == "dollar":
         dollar = GetCoins.get_dollar()
         return {"dollar_value": dollar}
