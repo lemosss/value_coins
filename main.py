@@ -45,11 +45,9 @@ def get_coin(coin: str):
     """Coins available: Dollar, Euro"""
     coin = coin.lower()
     if coin == "dollar":
-        dollar = GetCoins.get_dollar()
-        return {"dollar_value": dollar}
+        return GetCoins.get_dollar()
     if coin == "euro":
-        euro = GetCoins.get_euro()
-        return {"euro_value": euro}
+        return GetCoins.get_euro()
     else:
         raise HTTPException(status_code=400, detail="Invalid Coin")
 
