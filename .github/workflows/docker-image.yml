@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: value-coins-prod
     env:
-      IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/value-coins:latest
+      IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/site:latest
     steps:
       # Git Checkout
       - name: Checkout
@@ -36,4 +36,4 @@ jobs:
 
       # Deploy image
       - name: Deploy Docker image
-        run: gcloud run deploy value-coins --image $IMAGE_NAME --region us-central1 --memory 128Mi --min-instances 0 --max-instances 1 --platform managed --port 8080 --allow-unauthenticated
+        run: gcloud run deploy site --image $IMAGE_NAME --region us-central1 --memory 128Mi --min-instances 0 --max-instances 1 --platform managed --port 8080 --allow-unauthenticated
