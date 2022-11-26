@@ -1,4 +1,4 @@
-name: GCP
+name: Deploy to GCP
 
 on:
   push:
@@ -8,11 +8,11 @@ jobs:
   deploy:
     name: Setup Gcloud Account
     runs-on: ubuntu-latest
-    environment: hw-prod
+    environment: value_coins-prod
     env:
-      IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/site:latest
+      IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/value_coins:latest
     steps:
-      # Git checkout
+      # Git Checkout
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -22,18 +22,18 @@ jobs:
           service_account_key: ${{ secrets.GCP_CREDENTIALS }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      # gcloud configure docker
+      # GCloud configure docker
       - name: Configure Docker
         run: gcloud auth configure-docker --quiet
 
-      # build image
+      # Build image
       - name: Build Docker image
         run: docker build -t $IMAGE_NAME .
 
-      # push image to registry
+      # Push image to registry
       - name: Push Docker image
         run: docker push $IMAGE_NAME
 
-      # deploy image
+      # Deploy image
       - name: Deploy Docker image
-        run: gcloud run deploy site --image $IMAGE_NAME --region us-central1 --memory 128Mi --min-instances 0 --max-instances 1 --platform managed --port 8080 --allow-unauthenticated
+        run: gcloud run deploy value_coins --image $IMAGE_NAME --region us-central1 --memory 128Mi --min-instances 0 --max-instances 1 --platform managed --port 8080 --allow-unauthenticated
